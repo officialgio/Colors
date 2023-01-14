@@ -1,0 +1,239 @@
+/* ------------------- */
+/* Custom properties   */
+/* ------------------- */
+
+:root {
+    /* colors */
+    --clr-dark: 230 35% 7%;
+    --clr-light: 231 77% 90%;
+    --clr-white: rgb(212, 212, 212);
+    
+    --apple-green: rgb(52, 199, 89);
+    --apple-red: rgb(255, 59, 48);
+
+    --apple-cyan: rgb(50, 173, 230);
+    --apple-cyan-active: rgb(100, 210, 255);
+
+    --apple-blue: rgb(8, 61, 117);
+
+    --apple-purple: rgb(88, 86, 214);
+    --apple-purple-active: rgb(114, 112, 237);
+
+    --apple-orange: rgb(255, 149, 0);
+    --apple-orange-active: rgb(244, 173, 59);
+
+    --apple-gray: rgb(72, 72, 74);
+    --apple-gray-active: rgb(142, 142, 143);
+
+    --gradient-color: linear-gradient(90deg, #2ca2b4, #5598de 24%, #7f87ff 45%, #f65aad 76%, #ec3d43);
+
+
+    /* font-sizes */
+    --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+    --fs-800: 6.25rem;
+    --fs-700: 3.5rem;
+    --fs-600: 2rem;
+    --fs-500: 1rem;
+    --fs-400: 1.125rem;
+    --fs-300: 1rem;
+    --fs-200: 0.875rem;
+    --fs-logo: 300;
+
+    /* font-families */
+    --ff-apple-normal: -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Oxygen-Sans,
+        Ubuntu,
+        Cantarell,
+        Helvetica Neue,
+        sans-serif;
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--ff-apple-normal);
+    color: hsl(var(--clr-dark));
+    background-color: var(--apple-gray);
+
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/**/ 
+path,
+i,
+svg {
+    pointer-events: none !important; /* Allows us to tap in the button without tapping in the actual img */
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+
+.flex {
+    display: flex;
+    /* gap: var(--gap, 1rem); */
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.colors {
+    min-height: 80vh;
+    border: 4px solid limegreen;
+    color: var(--clr-white);
+    /* flex-wrap: wrap; */
+}
+
+.color {
+    height: 80vh;
+    flex-direction: column;
+    align-items: center; /* x */
+    justify-content: space-evenly; /* y */
+    position: relative;
+    overflow: hidden;
+}
+
+.color h2 {
+    cursor: pointer;
+    font-size: var(--fs-600);
+}
+
+.sliders {
+    flex-direction: column;
+    position: absolute;
+    bottom: 0%;
+    background: white;
+    padding: 1rem;
+    width: max(80%, 70%);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    /* opacity: 0; */
+
+    /* Adjustment class purpose */
+    /* pointer-events: none; */
+    /* transform: translateY(100px); */
+    transition: all 300ms ease-in-out;
+}
+
+.sliders.active {
+    opacity: 1;
+    transform: translateY(0px);
+    pointer-events: all;
+}
+
+.sliders button {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border: none;
+    background: var(--apple-gray);
+    color: white;
+    font-weight: bold;
+}
+
+.controls {
+    flex-direction: column;
+}
+
+.panel {
+    align-items: center;
+    justify-content: space-evenly;
+    height: 20vh;
+    border: 1px solid red;
+}
+
+.panel button {
+    cursor: pointer;
+    font-size: var(--fs-500);
+    margin: 1rem;
+    padding: 1rem 2rem;
+    background: var(--apple-blue);
+    border: none;
+    border-radius: 1rem;
+}
+
+.panel p {
+    font-size: var(--fs-500);
+}
+
+.library-panel, 
+.generate-panel, 
+.save-panel {
+    flex-direction: column;
+    align-items: center;
+}
+
+.adjust, .lock {
+    cursor: pointer;
+    font-size: 2rem;
+    border: none;
+    background: none;
+    margin: 2rem 0rem;
+}
+
+.lock {
+    padding-bottom: 4rem; /* MODIFIED */
+}
+
+
+/************** Slider **************/
+input[type="range"] {
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin: 1rem 0rem;
+    width: 100%;
+    position: relative;
+    border-radius: 1rem;
+}
