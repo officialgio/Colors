@@ -2,8 +2,9 @@
 const colorDivs = document.querySelectorAll('.color');
 const generateBtn = document.querySelectorAll('.generate');
 const sliders = document.querySelectorAll('input[type="range"]');
-const currentHexes = document.querySelector('.color h2');
+const currentHexes = document.querySelectorAll('.color h2');
 const allSliders = document.querySelectorAll('.sliders input');
+const popup = document.querySelector('.copy-container');
 
 // Event Listeners
 sliders.forEach((slider) => {
@@ -16,6 +17,21 @@ colorDivs.forEach((div, index) => {
     });
 });
 
+currentHexes.forEach((hex) => {
+    hex.addEventListener('click', () => {
+        copyToClipboard(hex);
+    });
+});
+
+/**
+ * Use Timeout instead of transitioned
+ * @see copyToClipboard()
+ */
+// popup.addEventListener('transitionend', () => {
+//     const popupBox = popup.children[0];
+//     popup.classList.remove('active');
+//     popupBox.classList.remove('active');
+// })
 
 // Functions
 // Color Generator 
@@ -31,6 +47,38 @@ const checkTextContrast = (color, text) => {
     else
         text.style.color = 'white';
 }
+
+
+/**
+ * Create a textarea, append it and then select it to then copy to clipboard
+ * After copying remove the textarea 
+ * @deprecated Creating text area with execCommand() is deprecated. Solution: navigator
+ * @link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+ * 
+ * Use navigator to copy 
+ * Activate its antimation and setTimeout to remove animation 
+ * @param {hex} h2 
+ */
+const copyToClipboard = (hex) => {
+    // const el = document.createElement('textarea');
+    // el.value = hex.innerText;
+    // document.body.appendChild(el);
+    // el.select();
+    // document.execCommand('copy');
+    // document.body.removeChild(el);
+
+    navigator.clipboard.writeText(hex.innerText);
+
+    // Pop up animation 
+    const popupBox = popup.children[0];
+    popup.classList.add('active'); // copy-container
+    popupBox.classList.add('active'); // children
+    setTimeout(() => {
+        popup.classList.remove('active');
+        popupBox.classList.remove('active');
+    }, 1000);
+}
+
 
 /**'
  * Update the sliders accordingly to chosen color with hue, brightness, && saturation
@@ -92,7 +140,7 @@ function randomColor() {
 
         // Initialize colorize sliders 
         const color = chroma(randomColor);
-        const sliders = div.querySelectorAll('.sliders input'); // NodeList(3) [input.hue-input, input.bright-input, input.sat-input]
+        const sliders = div.querySelectorAll('.sliders input'); // 5: NodeList(3) [input.hue-input, input.bright-input, input.sat-input]
         const hue = sliders[0];
         const brightness = sliders[1];
         const saturation = sliders[2];
@@ -138,7 +186,7 @@ function hslControls(e) {
  * 
  * Ensure to check the contrast for text/icons
  * 
- * @param {index} index 
+ * @param {index} Nodelist Index (5)
  */
 function updateTextUI(index) {
     const activeDiv = colorDivs[index];
