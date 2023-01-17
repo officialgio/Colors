@@ -5,6 +5,9 @@ const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
 const allSliders = document.querySelectorAll('.sliders input');
 const popup = document.querySelector('.copy-container');
+const adjustButton = document.querySelectorAll('.adjust');
+const closeAdjustments = document.querySelectorAll('.close-adjustment');
+const sliderContainers = document.querySelectorAll('.sliders');
 
 // Event Listeners
 sliders.forEach((slider) => {
@@ -20,6 +23,18 @@ colorDivs.forEach((div, index) => {
 currentHexes.forEach((hex) => {
     hex.addEventListener('click', () => {
         copyToClipboard(hex);
+    });
+});
+
+adjustButton.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        openAdjustmentPanel(index);
+    });
+});
+
+closeAdjustments.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        closeAdjustmentPanel(index);
     });
 });
 
@@ -64,6 +79,7 @@ const copyToClipboard = (hex) => {
     // el.value = hex.innerText;
     // document.body.appendChild(el);
     // el.select();
+
     // document.execCommand('copy');
     // document.body.removeChild(el);
 
@@ -198,5 +214,18 @@ function updateTextUI(index) {
     checkTextContrast(color, textHex);
     for (icon of icons) checkTextContrast(color, icon);
 }
+
+
+
+function openAdjustmentPanel(index) {
+    sliderContainers[index].classList.toggle('active');
+}
+
+function closeAdjustmentPanel(index) {
+    sliderContainers[index].classList.remove('active');
+}
+
+
+
 
 randomColor();
