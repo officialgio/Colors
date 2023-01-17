@@ -32,11 +32,7 @@ adjustButton.forEach((button, index) => {
     });
 });
 
-closeAdjustments.forEach((button, index) => {
-    button.addEventListener('click', () => {
-        closeAdjustmentPanel(index);
-    });
-});
+
 
 /**
  * Use Timeout instead of transitioned
@@ -219,12 +215,21 @@ function updateTextUI(index) {
 
 function openAdjustmentPanel(index) {
     sliderContainers[index].classList.toggle('active');
+    sliderContainers[index].children[0].addEventListener(('click'), (e) => {
+        sliderContainers[index].classList.remove('active');
+    });
 }
 
-function closeAdjustmentPanel(index) {
-    sliderContainers[index].classList.remove('active');
-}
 
+// function closeAdjustmentPanel(index) {
+//     sliderContainers[index].classList.remove('active');
+// }
+
+// closeAdjustments.forEach((button, index) => {
+//     button.addEventListener('click', () => {
+//         closeAdjustmentPanel(index);
+//     });
+// });
 
 
 
