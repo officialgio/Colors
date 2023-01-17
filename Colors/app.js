@@ -1,6 +1,6 @@
 // Global Selection and Variables
 const colorDivs = document.querySelectorAll('.color');
-const generateBtn = document.querySelectorAll('.generate');
+const generateBtn = document.querySelector('.generate');
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
 const allSliders = document.querySelectorAll('.sliders input');
@@ -8,8 +8,12 @@ const popup = document.querySelector('.copy-container');
 const adjustButton = document.querySelectorAll('.adjust');
 const closeAdjustments = document.querySelectorAll('.close-adjustment');
 const sliderContainers = document.querySelectorAll('.sliders');
+const lockButton = document.querySelectorAll('.lock');
 
 // Event Listeners
+generateBtn.addEventListener('click', randomColor)
+
+
 sliders.forEach((slider) => {
     slider.addEventListener('input', hslControls);
 });
@@ -31,7 +35,6 @@ adjustButton.forEach((button, index) => {
         openAdjustmentPanel(index);
     });
 });
-
 
 
 /**
@@ -129,6 +132,7 @@ const colorizeSliders = (color, hue, brightness, saturation) => {
     saturation.value = color.hsl()[1];
     brightness.value = color.hsl()[2];
     hue.value = color.hsl()[0];
+
 }
 
 function randomColor() {
@@ -139,6 +143,7 @@ function randomColor() {
     colorDivs.forEach((div, index) => {
         const hexText = div.children[0];
         const randomColor = generateHex();
+        const icons = colorDivs[index].querySelectorAll('.controls button');
 
         // Add color to Array
         initialColors.push(chroma(randomColor).hex());
@@ -147,8 +152,9 @@ function randomColor() {
         div.style.backgroundColor = randomColor;
         hexText.innerText = randomColor;
 
-        // Check for contrast 
+        // Check for contrast  for both text & buttons
         checkTextContrast(randomColor, hexText);
+        for (icon of icons) checkTextContrast(randomColor, icon);
 
         // Initialize colorize sliders 
         const color = chroma(randomColor);
@@ -212,7 +218,10 @@ function updateTextUI(index) {
 }
 
 
-
+/**
+ *  This function handles the adjustment button
+ * @param {index} index of NodeList (5) 
+ */
 function openAdjustmentPanel(index) {
     sliderContainers[index].classList.toggle('active');
     sliderContainers[index].children[0].addEventListener(('click'), (e) => {
