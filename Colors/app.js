@@ -10,9 +10,18 @@ const closeAdjustments = document.querySelectorAll('.close-adjustment');
 const sliderContainers = document.querySelectorAll('.sliders');
 const lockButton = document.querySelectorAll('.lock');
 
+// Save to Local Storage
+const saveBtn = document.querySelector('.save');
+const submitSave = document.querySelector('.submit-save');
+const closeSave = document.querySelector('.close-save');
+const saveContainer = document.querySelector('.save-container');
+const saveInput = document.querySelector('.save-container input');
+
+// This is for Local Storage 
+let savedPalettes = [];
+
 // Event Listeners
 generateBtn.addEventListener('click', randomColor)
-
 
 sliders.forEach((slider) => {
     slider.addEventListener('input', hslControls);
@@ -36,6 +45,13 @@ adjustButton.forEach((button, index) => {
     });
 });
 
+lockButton.forEach((button, index) => {
+    button.addEventListener('click', (e) => {
+        lockColors(e, index);
+    });
+});
+
+submitSave.addEventListener('click', savePalette);
 
 /**
  * Use Timeout instead of transitioned
@@ -70,7 +86,7 @@ const checkTextContrast = (color, text) => {
  * @link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
  * 
  * Use navigator to copy 
- * Activate its antimation and setTimeout to remove animation 
+ * Activate its animation and setTimeout to remove animation 
  * @param {hex} h2 
  */
 const copyToClipboard = (hex) => {
@@ -228,6 +244,84 @@ function openAdjustmentPanel(index) {
         sliderContainers[index].classList.remove('active');
     });
 }
+
+function lockColors(e, index) {
+    colorDivs[index].classList.remove('unlocked');
+    colorDivs[index].classList.toggle('locked');
+    if (colorDivs[index].classList.contains('locked')) {
+        e.target.innerHTML = '<i class="fas fa-lock"></i>'
+    }
+    else {
+        colorDivs[index].classList.toggle('unlocked');
+        e.target.innerHTML = '<i class="fas fa-lock-open"></i>';
+    }
+}
+
+
+
+
+// Event Listeners
+saveBtn.addEventListener('click', openPalette);
+closeSave.addEventListener('click', closePalette);
+
+
+function openPalette(e) {
+    saveContainer.classList.remove('hide'); // bug
+    const popup = saveContainer.children[0];
+    saveContainer.classList.add('active');
+    popup.classList.add('active');
+}
+
+function closePalette(e) {
+    const popup = saveContainer.children[0];
+    saveContainer.classList.remove('active');
+    saveContainer.classList.toggle('hide') // bug
+}
+
+function savePalette() {
+    saveContainer.classList.remove('active');
+    popup.classList.remove('active')
+    const name = saveInput.value;
+    const colors = [];
+    currentHexes.forEach((hex) => {
+        colors.push(hex.innerText);
+    });
+
+    // Generate Object
+    let paletteNr = savedPalettes.length;
+    const paletteObj = { name, colors, nr: paletteNr };
+    savedPalettes.push(paletteObj);
+    console.log(savedPalettes);
+
+    // Save to Local Storage
+    saveToLocal(paletteObj);
+    saveInput.value = '';
+}
+
+/**
+ * This function is called to save the entire color palette to the local storage
+ * @see savePalette()
+ * @param {paletteObj} object palette with all colors 
+ */
+const saveToLocal = (paletteObj) => {
+    let localPalettes = checkLocalStorage();
+    localPalettes.push(paletteObj);
+    localStorage.setItem('palettes', JSON.stringify(localPalettes));
+}
+
+// Check Local Storage 
+const checkLocalStorage = () => {
+    let localPalettes;
+    if (localStorage.getItem('palettes') === null)
+        localPalettes = [];
+    else
+        localPalettes = JSON.parse(localStorage.getItem('palettes'));
+    return localPalettes;
+}
+
+
+
+
 
 
 // function closeAdjustmentPanel(index) {
