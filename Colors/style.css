@@ -26,6 +26,8 @@
     --apple-gray: rgb(72, 72, 74);
     --apple-gray-active: rgb(142, 142, 143);
 
+    --apple-black: rgb(28, 28, 30);
+
     --copy-container: rgba(0, 0, 0, 0.5);
 
     --gradient-color: linear-gradient(90deg, #2ca2b4, #5598de 24%, #7f87ff 45%, #f65aad 76%, #ec3d43);
@@ -139,10 +141,8 @@ h6 {
 .color {
     height: 80vh;
     flex-direction: column;
-    align-items: center;
-    /* y */
-    justify-content: space-evenly;
-    /* x */
+    align-items: center;/* y */
+    justify-content: space-evenly;/* x */
     position: relative;
     overflow: hidden;
 }
@@ -335,6 +335,46 @@ input[type="range"] {
 
 .submit-save:hover {
     opacity: 0.80;
+}
+
+.library-popup {
+    min-width: 40%;
+    padding: 1rem;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    max-height: 50vh;
+}
+
+.custom-palette {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 2rem;
+}
+
+.small-preview {
+    display: flex;
+    flex: 1;
+}
+
+.small-preview div {
+    height: 5rem;
+    flex: 1;
+}
+
+.custom-palette h4 {
+    flex: 1;
+}
+
+.pick-palette-btn {
+    cursor: pointer;
+    height: 5rem;
+    border: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+    background-color: var(--apple-black);
+    color: white;
 }
 
 
