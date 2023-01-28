@@ -1,6 +1,6 @@
 # Colors
 <p align="center">
-    A Frontend Colors Project. This project was meant to brush up on JavaScript and enhance JavaScript skills using the [Chroma.JS](https://gka.github.io/chroma.js/) library. 
+    A Frontend Colors Project. This project was meant to brush up on JavaScript and enhance JavaScript skills using the [Chroma.JS](https://gka.github.io/chroma.js/). 
 </p> 
 
 <p align="center">
@@ -11,29 +11,29 @@
 # Main Screen
 
 <p align="center">
-    <img width="600" src="./img/main.png">
+    <img width="600" src="./assets/main.png">
 </p>
 
 # Save
 
 <p align="center">
-    <img width="600" src="./img/save.png">
+    <img width="600" src="./assets/save.png">
 </p>
 
 # Library
 
 <p align="center">
-    <img width="600" src="./img/fav.png">
+    <img width="600" src="./assets/fav.png">
 </p>
 
 # Mobile
 
 <p align="center">
-    <img width="400" src="./img/mobile.png">
+    <img width="400" src="./assets/mobile.png">
 </p>
 
 <p align="center">
-    <img width="400" src="./img/mobile2.png">
+    <img width="400" src="./assets/mobile2.png">
 </p>
 
 
