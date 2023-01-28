@@ -23,6 +23,7 @@ const closeLibraryBtn = document.querySelector('.close-library');
 
 // This is for Local Storage 
 let savedPalettes = [];
+let localPalettes = [];
 
 // Event Listeners
 generateBtn.addEventListener('click', randomColor)
@@ -289,6 +290,11 @@ function savePalette() {
 
     // Generate Object
     let paletteNr = savedPalettes.length;
+    if (localPalettes != null)
+        paletteNr = localPalettes.length;
+    else
+        paletteNr = savedPalettes.length;
+
     const paletteObj = { name, colors, nr: paletteNr };
     savedPalettes.push(paletteObj);
 
@@ -296,6 +302,11 @@ function savePalette() {
     saveToLocal(paletteObj);
     saveInput.value = '';
 
+    // Generate palette for library
+    generatePaletteForLibrary(paletteObj);
+}
+
+function generatePaletteForLibrary(paletteObj) {
     // Generate palette for library
     const palette = document.createElement('div');
     palette.classList.add('custom-palette');
@@ -306,7 +317,7 @@ function savePalette() {
     const preview = document.createElement('div');
     preview.classList.add('small-preview');
 
-    // Append every color from the paletteobj to the preview
+    // Append every color from the paletteobj to the preview 
     paletteObj.colors.forEach((smallColor) => {
         const smallDiv = document.createElement('div');
         smallDiv.style.backgroundColor = smallColor;
@@ -324,13 +335,14 @@ function savePalette() {
      * First, select chosen palette and close the library
      * Then, reset the initialColors array 
      * Update the colorDivs respectively to its the colors of the saved palette that was selected
+     * 
+     * TODO: Fix color slider bug.
      */
     paletteBtn.addEventListener('click', e => {
         closeLibrary();
         const paletteIndex = e.target.classList[1]; // NOTE: Index is attached to the class btn
-        console.log(paletteIndex);
         initialColors = [];
-        savedPalettes[paletteIndex].colors.forEach((color, index) => {
+        localPalettes[paletteIndex].colors.forEach((color, index) => {
             initialColors.push(color);
             colorDivs[index].style.backgroundColor = color;
             const text = colorDivs[index].children[0];
@@ -363,14 +375,13 @@ function closeLibrary() {
  * @param {paletteObj} object palette with all colors 
  */
 const saveToLocal = (paletteObj) => {
-    let localPalettes = checkLocalStorage();
+    localPalettes = checkLocalStorage();
     localPalettes.push(paletteObj);
     localStorage.setItem('palettes', JSON.stringify(localPalettes));
 }
 
 // Check Local Storage 
 const checkLocalStorage = () => {
-    let localPalettes;
     if (localStorage.getItem('palettes') === null)
         localPalettes = [];
     else
@@ -378,21 +389,14 @@ const checkLocalStorage = () => {
     return localPalettes;
 }
 
+// Get Local storage objects and display them in the library
+const getLocal = () => {
+    const paletteObjects = checkLocalStorage();
+    paletteObjects.forEach((paletteObj) => {
+        generatePaletteForLibrary(paletteObj);
+    });
+}
 
-
-
-
-
-// function closeAdjustmentPanel(index) {
-//     sliderContainers[index].classList.remove('active');
-// }
-
-// closeAdjustments.forEach((button, index) => {
-//     button.addEventListener('click', () => {
-//         closeAdjustmentPanel(index);
-//     });
-// });
-
-
-
+// Retrieve local storage & initialize a random color respectively
+getLocal();
 randomColor();
